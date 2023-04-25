@@ -13,16 +13,18 @@ public class PartidoTest {
 
 	@Before
 	public void setUp() {
-		this.equipo1 = new Equipo("Argentina");
-		this.equipo2 = new Equipo("Brasil");
-		this.partido = new Partido(this.equipo1, this.equipo2,);
+		this.equipo1 = new Equipo("1");
+		this.equipo2 = new Equipo("2");
+		equipo1.set_nombre("Argentina");
+		equipo2.set_nombre("Brasil");
+		this.partido = new Partido(this.equipo1, this.equipo2);
 	}
 
 	@Test
 	public void testPartidoGanadorPerdedor() {
 
-		this.partido.setGolesEq1(2);
-		this.partido.setGolesEq2(1);
+		this.partido.set_goles_equipo1(2);
+		this.partido.set_goles_equipo2(1);
 
 		EnumResultado resultadoObtenido1 = partido.resultado(this.equipo1);
 		EnumResultado resultadoObtenido2 = partido.resultado(this.equipo2);
@@ -35,8 +37,8 @@ public class PartidoTest {
 	@Test
 	public void testPartidoEmpatado() {
 
-		this.partido.setGolesEq1(2);
-		this.partido.setGolesEq2(2);
+		this.partido.set_goles_equipo1(2);
+		this.partido.set_goles_equipo2(2);
 
 		EnumResultado resultadoObtenido = partido.resultado(equipo1);
 		

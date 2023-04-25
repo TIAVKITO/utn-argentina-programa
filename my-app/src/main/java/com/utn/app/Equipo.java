@@ -23,6 +23,10 @@ public class Equipo {
 		return nombre;
 	}
 
+	public void set_nombre(String nombre) {
+		this.nombre = nombre;
+	}
+
 	public String get_descripcion() {
 		return descripcion;
 	}
