@@ -16,6 +16,11 @@ public class Partido {
 		this.equipo2 = equipo2;
 	}
 
+	public Partido(Equipo equipo1, Equipo equipo2) {
+		this.equipo1 = equipo1;
+		this.equipo2 = equipo2;
+	}
+
 	public Integer get_id() {
 		return id;
 	}

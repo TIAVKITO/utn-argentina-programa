@@ -63,7 +63,8 @@ public class Reader {
                 primera = false;
             } else {
                 String[] campos = lineaPronostico.split(";");
-                Participante participante = new Participante(campos[0], campos[1]);
+                Participante participante = new Participante(campos[1]);
+                participante.set_id(Integer.parseInt(campos[0]));
                 Equipo equipo1 = new Equipo(campos[2]);
                 Equipo equipo2 = new Equipo(campos[6]);
                 Partido partidoSeleccionado = null;

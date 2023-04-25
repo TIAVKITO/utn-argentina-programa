@@ -1,1 +1,8 @@
+com\utn\app\Partido.class
+com\utn\app\Equipo.class
+com\utn\app\Ronda.class
+com\utn\app\Pronostico.class
 com\utn\app\App.class
+com\utn\app\EnumResultado.class
+com\utn\app\Participante.class
+com\utn\app\Reader.class
