@@ -21,9 +21,12 @@ public class App
         Path pathPronostico = Paths.get(args[1]);
     */
 
-        Path pathResultados = Paths.get("C:\\Users\\nicol\\Desktop\\utn-tp-pronostico\\src\\test\\resources\\resultados2.csv");
-        Path pathPronostico = Paths.get("C:\\Users\\nicol\\Desktop\\utn-tp-pronostico\\src\\test\\resources\\pronostico2.csv");
-
+        Path pathResultados = Paths.get("C:\\Users\\nicol\\Desktop\\utn-argentina-programa\\my-app\\src\\test\\resources\\resultados.csv");
+        Path pathPronostico = Paths.get("C:\\Users\\nicol\\Desktop\\utn-argentina-programa\\my-app\\src\\test\\resources\\pronosticos.csv");
+/*
+        Path pathResultados = Paths.get("C:\\Users\\nicol\\Desktop\\utn-tp-pronostico\\src\\test\\resources\\resultados.csv");
+        Path pathPronostico = Paths.get("C:\\Users\\nicol\\Desktop\\utn-tp-pronostico\\src\\test\\resources\\pronosticos.csv");
+*/
         Reader lectorArchivos = new Reader(pathResultados, pathPronostico);
 
         ArrayList<Partido> partidos = new ArrayList<Partido>();
