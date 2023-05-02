@@ -47,7 +47,7 @@ public class Pronostico {
 	public int puntos() {
 		EnumResultado resultadoReal = partido.resultado(partido.get_equipo1());
 		if (this.resultado.equals(resultadoReal)) {
-			return acierto;
+			return 1;
 		} else {
 			return 0;
 		}
@@ -87,7 +87,7 @@ public class Pronostico {
         	properties.load(fileInputStream);
            	acierto = Integer.parseInt(properties.getProperty("acierto"));
            	recompensaRonda = Integer.parseInt(properties.getProperty("recompensaRonda"));
-           	recompensaFase = Integer.parseInt(properties.getProperty("recompensaFases"));
+           	recompensaFase = Integer.parseInt(properties.getProperty("recompensaFase"));
        	} catch (IOException e) {
        		System.err.println("Error al cargar el archivo de configuración.");
        	}

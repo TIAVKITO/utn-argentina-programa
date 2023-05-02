@@ -11,35 +11,28 @@ public class App {
             
             List<Partido> partidos = Partido.fetchFromDatabase(conexion);
             List<Pronostico> pronosticos = Pronostico.fetchFromDatabase(conexion, partidos);
-            List<Participante> participantes = null; 
 
-            for (Pronostico pronostico : pronosticos) {
-                if (participantes.isEmpty()) {
-                    participantes.add(pronostico.get_participante());
-                } 
-                Participante ultimoParticipante = participantes.get(participantes.size()-1);
-                if (ultimoParticipante.get_id() != pronostico.get_participante().get_id()) {
-                    participantes.add(pronostico.get_participante());
-                }
-            }
+            List<Participante> participantes = new ArrayList<>(); 
+
+            // como iterar por pronosticos para generar una lista de los participantes?
+            participantes.add(pronosticos.get(0).get_participante());
+            participantes.add(pronosticos.get(8).get_participante());
 
             for (Participante participante : participantes) {
                 int puntos = 0;
                 for (Pronostico pronostico : pronosticos) {
                     if (participante.get_id() == pronostico.get_participante().get_id()) {
                         puntos += pronostico.puntos();
-
                         //TODO recompensa rondas  
                     }
-                    if (puntos == partidos.size()) {puntos += pronostico.get_recompensa_ronda();}
+                    if (puntos == partidos.size()) {puntos += pronostico.get_recompensa_fase();}
                 }
 
                 participante.set_puntos(puntos); 
             }   
 
             for (Participante participante : participantes) {
-                System.out.println("Los puntos obtenidos por " + participante.get_nombre() + " son: ");
-                System.out.println(participante.get_puntos()); 
+                System.out.println(participante.get_id() + " " + participante.get_nombre() + " " + participante.get_puntos()); 
             }
 
         } catch (SQLException e) {
