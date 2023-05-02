@@ -27,9 +27,13 @@ public class App {
                 int puntos = 0;
                 for (Pronostico pronostico : pronosticos) {
                     if (participante.get_id() == pronostico.get_participante().get_id()) {
-                        puntos += pronostico.puntos();  
+                        puntos += pronostico.puntos();
+
+                        //TODO recompensa rondas  
                     }
+                    if (puntos == partidos.size()) {puntos += pronostico.get_recompensa_ronda();}
                 }
+
                 participante.set_puntos(puntos); 
             }   
 

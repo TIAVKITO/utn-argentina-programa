@@ -2,17 +2,26 @@ package com.utn.app;
 
 import java.util.*;
 import java.sql.*;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 public class Pronostico {
 	private Participante participante;
 	private Partido partido;
 	private EnumResultado resultado;
+    private static int acierto;
+    private static int recompensaRonda;
+    private static int recompensaFase;
 
 	public Pronostico(Participante participante, Partido partido, EnumResultado resultado) {
 		super();
 		this.participante = participante;
 		this.partido = partido;
 		this.resultado = resultado;
+	}
+
+	static {
+		loadConfig();
 	}
 
 	public Participante get_participante() {
@@ -27,10 +36,18 @@ public class Pronostico {
 		return resultado;
 	}
 
+	public int get_recompensa_ronda() {
+		return recompensaRonda;
+	}
+
+	public int get_recompensa_fase() {
+		return recompensaFase;
+	}
+
 	public int puntos() {
 		EnumResultado resultadoReal = partido.resultado(partido.get_equipo1());
 		if (this.resultado.equals(resultadoReal)) {
-			return 1;
+			return acierto;
 		} else {
 			return 0;
 		}
@@ -62,5 +79,17 @@ public class Pronostico {
         consulta.close();
         resultado.close();
         return pronosticos;
+    }
+
+	public static void loadConfig() { //sera mejor hacer esto en Participante.java?
+    	Properties properties = new Properties();
+       	try (FileInputStream fileInputStream = new FileInputStream("config.properties")) {
+        	properties.load(fileInputStream);
+           	acierto = Integer.parseInt(properties.getProperty("acierto"));
+           	recompensaRonda = Integer.parseInt(properties.getProperty("recompensaRonda"));
+           	recompensaFase = Integer.parseInt(properties.getProperty("recompensaFases"));
+       	} catch (IOException e) {
+       		System.err.println("Error al cargar el archivo de configuración.");
+       	}
     }
 }

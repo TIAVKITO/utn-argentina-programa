@@ -4,6 +4,8 @@ public class Participante {
 	private int id;
 	private String nombre;
 	private int puntos;
+	private int totalAciertosRonda = 0;
+	private int totalAciertosFase = 0; 
 
 	public Participante(int id, String nombre) {
 		super();
@@ -29,6 +31,14 @@ public class Participante {
 
 	public void set_puntos(int puntos) {
 		this.puntos = puntos;
+	}
+
+	public int get_total_aciertos_ronda() {
+		return totalAciertosRonda;
+	}
+
+	public int get_total_aciertos_fase() {
+		return totalAciertosFase;
 	}
 
 }
