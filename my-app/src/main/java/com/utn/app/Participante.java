@@ -1,21 +1,18 @@
 package com.utn.app;
 
 public class Participante {
-	private Integer id;
+	private int id;
 	private String nombre;
 	private int puntos;
 
-	public Participante(String nombre) {
+	public Participante(int id, String nombre) {
 		super();
+		this.id = id;
 		this.nombre = nombre;
 	}
 
-	public Integer get_id() {
+	public int get_id() {
 		return id;
-	}
-
-	public void set_id(Integer id) {
-		this.id = id;
 	}
 
 	public String get_nombre() {
@@ -33,4 +30,5 @@ public class Participante {
 	public void set_puntos(int puntos) {
 		this.puntos = puntos;
 	}
+
 }

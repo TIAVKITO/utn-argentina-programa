@@ -1,28 +1,32 @@
 package com.utn.app;
 
+import java.util.*;
+import java.sql.*;
+
 public class Partido {
-	private String rondaId;
-	private Integer id;
+	private int id;
+	private int ronda;
 	private Equipo equipo1;
 	private Equipo equipo2;
-	private int golesEq1;
-	private int golesEq2;
+	private int golesEquipo1;
+	private int golesEquipo2;
 		
-	public Partido(String rondaId, Integer id, Equipo equipo1, Equipo equipo2) {
+	public Partido(int ronda, int id, Equipo equipo1, Equipo equipo2, int golesEquipo1, int golesEquipo2) {
 		super();
-		this.rondaId = rondaId;
+		this.ronda = ronda;
 		this.id = id;
 		this.equipo1 = equipo1;
 		this.equipo2 = equipo2;
+		this.golesEquipo1 = golesEquipo1;
+		this.golesEquipo2 = golesEquipo2;
 	}
 
-	public Partido(Equipo equipo1, Equipo equipo2) {
-		this.equipo1 = equipo1;
-		this.equipo2 = equipo2;
-	}
-
-	public Integer get_id() {
+	public int get_id() {
 		return id;
+	}
+
+	public int get_ronda() {
+		return ronda;
 	}
 
 	public Equipo get_equipo1() {
@@ -34,37 +38,50 @@ public class Partido {
 	}
 
 	public int get_goles_equipo1() {
-		return golesEq1;
+		return golesEquipo1;
 	}
 
-	public void set_goles_equipo1(int golesEq1) {
-		this.golesEq1 = golesEq1;
+	public void set_goles_equipo1(int golesEquipo1) {
+		this.golesEquipo1 = golesEquipo1;
 	}
 
 	public int get_goles_equipo2() {
-		return golesEq2;
+		return golesEquipo2;
 	}
 
-	public void set_goles_equipo2(int golesEq2) {
-		this.golesEq2 = golesEq2;
+	public void set_goles_equipo2(int golesEquipo2) {
+		this.golesEquipo2 = golesEquipo2;
 	}
 	
 	public EnumResultado resultado(Equipo equipo) {
-		if(golesEq1 == golesEq2) {
+		if (golesEquipo1 == golesEquipo2) {
 			return EnumResultado.EMPATE;
-		}
-		if(equipo.get_nombre().equals(equipo1.get_nombre())) {
-			if(golesEq1>golesEq2) {
-				return EnumResultado.GANADOR;	
-			}	else {
-				return EnumResultado.PERDEDOR;
-			}			
+		} else if (equipo.equals(equipo1)) {
+			return golesEquipo1 < golesEquipo2 ? EnumResultado.PERDEDOR : EnumResultado.GANADOR;
 		} else {
-			if(golesEq2>golesEq1) {
-				return EnumResultado.GANADOR;	
-			}	else {
-				return EnumResultado.PERDEDOR;
-			}	
-		}	
+			return golesEquipo2 < golesEquipo1 ? EnumResultado.PERDEDOR : EnumResultado.GANADOR;
+		}
+	}	
+
+	public static List<Partido> fetchFromDatabase(Connection conexion) throws SQLException {
+    	
+    	List<Partido> partidos = new ArrayList<>();
+
+    	Statement consulta = conexion.createStatement();
+    	String query = "SELECT * FROM utn_argentina_programa.resultados";
+    	ResultSet resultado = consulta.executeQuery(query);
+                   
+        while (resultado.next()) { //it returns false when there are no more rows in the ResultSet object
+            int ronda = resultado.getInt("ronda");            
+            int id = resultado.getInt("partido_id");
+            Equipo equipo1 = new Equipo(resultado.getInt("equipo1_id"), resultado.getString("equipo1_nombre"));
+			Equipo equipo2 = new Equipo(resultado.getInt("equipo2_id"), resultado.getString("equipo2_nombre"));
+            int golesEquipo1 = resultado.getInt("equipo1_goles");
+            int golesEquipo2 = resultado.getInt("equipo2_goles");
+            partidos.add(new Partido(ronda, id, equipo1, equipo2, golesEquipo1, golesEquipo2));
+        } 
+        consulta.close();
+        resultado.close();
+        return partidos;
 	}
 }
