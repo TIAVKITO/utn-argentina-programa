@@ -12,6 +12,7 @@ public class Pronostico {
     private static int acierto;
     private static int recompensaRonda;
     private static int recompensaFase;
+    private static int rondaActual = 0;
 
 	public Pronostico(Participante participante, Partido partido, EnumResultado resultado) {
 		super();
@@ -44,13 +45,29 @@ public class Pronostico {
 		return recompensaFase;
 	}
 
-	public int puntos() {
-		EnumResultado resultadoReal = partido.resultado(partido.get_equipo1());
-		if (this.resultado.equals(resultadoReal)) {
-			return 1;
-		} else {
-			return 0;
+	public void recompensas (int recompensaRonda, int recompensaFase) {
+		recompensaRonda = this.recompensaRonda;
+		recompensaFase = this.recompensaFase;
+	}
+
+	public int puntos(int aciertosRonda, int recompensa) {
+
+		if (rondaActual != partido.get_ronda()){
+			rondaActual = partido.get_ronda();
+			aciertosRonda = 0;
 		}
+
+		//si la ronda cambiar restablecer variables
+
+		EnumResultado resultadoReal = partido.resultado(partido.get_equipo1());
+        if (this.resultado.equals(resultadoReal)) {
+        	aciertosRonda++;
+        	if (aciertosRonda == 4) {
+        		recompensa++;
+        	}
+            return acierto;
+        }
+        return 0;
 	}
 
 	public static List<Pronostico> fetchFromDatabase(Connection conexion, List<Partido> partidos) throws SQLException {

@@ -12,27 +12,45 @@ public class App {
             List<Partido> partidos = Partido.fetchFromDatabase(conexion);
             List<Pronostico> pronosticos = Pronostico.fetchFromDatabase(conexion, partidos);
 
-            List<Participante> participantes = new ArrayList<>(); 
-
-            // como iterar por pronosticos para generar una lista de los participantes?
+            List<Participante> participantes = new ArrayList<>();
+ /*           
+            participantes.add(pronosticos.get(0).get_participante());
+            for (Pronostico pronostico : pronosticos) {
+                if (!participantes.get(participantes.size()-1).equals(pronostico.get_participante())) {
+                    participantes.add(pronostico.get_participante());
+                }
+                //debo soobrescribir .equals? pensar q es lo q deberia cambiar
+             } 
+*/
             participantes.add(pronosticos.get(0).get_participante());
             participantes.add(pronosticos.get(8).get_participante());
 
             for (Participante participante : participantes) {
                 int puntos = 0;
+                int aciertosRonda = 0;
+                int recompensa = 0;
+
+                int recompensaRonda = 0;
+                int recompensaFase = 0;
+
                 for (Pronostico pronostico : pronosticos) {
-                    if (participante.get_id() == pronostico.get_participante().get_id()) {
-                        puntos += pronostico.puntos();
-                        //TODO recompensa rondas  
+                    if (participante.get_id() == pronostico.get_participante().get_id()) { 
+                        puntos += pronostico.puntos(aciertosRonda, recompensa);
                     }
-                    if (puntos == partidos.size()) {puntos += pronostico.get_recompensa_fase();}
+                    pronostico.recompensas(recompensaRonda, recompensaFase);
+                }
+                if (recompensa!=0) {
+                    puntos += (recompensaRonda*recompensa);
+                    if (recompensa>1) {
+                        puntos += recompensaFase;
+                    }
                 }
 
                 participante.set_puntos(puntos); 
             }   
 
             for (Participante participante : participantes) {
-                System.out.println(participante.get_id() + " " + participante.get_nombre() + " " + participante.get_puntos()); 
+                System.out.println(participante.get_nombre() + ": " + participante.get_puntos()); 
             }
 
         } catch (SQLException e) {
